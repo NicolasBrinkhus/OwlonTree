@@ -18,14 +18,13 @@ class App extends React.Component {
 		if (localStorageRef) {
 			this.setState({ order: JSON.parse(localStorageRef) });
 		}
-		this.ref = base.syncState(`${this.props.match.params.storeId}/meals`, {
+		this.ref = base.syncState(`${this.props.match.params.storeId}:MENU/menu`, {
 			context: this,
 			state: 'meals'
 		});
 	};
 
 	componentDidUpdate() {
-		console.log(this.state.order);
 		localStorage.setItem(this.props.match.params.storeId,
 			JSON.stringify(this.state.order)
 		);
@@ -69,7 +68,7 @@ class App extends React.Component {
 
 	loadSampleMeals = () => {
 		this.setState({ meals: sampleMeals });
-	}
+	};
 
 	render() {
 		return (
@@ -91,15 +90,13 @@ class App extends React.Component {
 					meals={this.state.meals} 
 					order={this.state.order}
 					removeFromOrder={this.removeFromOrder}
-				/>
-				<Inventory 
-					addMeals={this.addMeals} 
-					updateMeal={this.updateMeal}
-					deleteMeal={this.deleteMeal}
-					loadSampleMeals={this.loadSampleMeals} 
-					meals={this.state.meals}
+					loadSampleMeals={this.loadSampleMeals}
 					storeId={this.props.match.params.storeId}
 				/>
+				{/*<Inventory 
+					storeId={this.props.match.params.storeId} 
+					meals={this.state.meals}
+				/>*/}
 			</div>
 		)
 	}

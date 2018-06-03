@@ -20,7 +20,7 @@ class IntroStore extends React.Component {
 					type="text"
 					ref={this.myInput} 
 					required 
-					defaultValue={`Owl-in-the-Tree${Date.now()}`} 
+					defaultValue={"Owl-in-the-Tree"} 
 				/>
 				<button type="submit">Visit Store</button>
 			</form>
