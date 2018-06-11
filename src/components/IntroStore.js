@@ -9,7 +9,7 @@ class IntroStore extends React.Component {
 		// 2. get the name of the store
 		const storeName = this.myInput.current.value;
 		// 3. change the page to /store/whatever-they-entered
-		this.props.history.push(`/store/${storeName}`);
+		this.props.history.push(`/store/${storeName}/`);
 	}
 
 	render() {

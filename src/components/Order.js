@@ -49,6 +49,7 @@ class Order extends React.Component {
 	logout = async () => {
 		await firebase.auth().signOut();
 		this.setState({ uid: null, email: null, name: null });
+		localStorage.removeItem(this.props.storeId);
 	}
 	renderOrder = key => {
 		const meal = this.props.meals[key];
@@ -80,18 +81,41 @@ class Order extends React.Component {
 					</span>
 				</li>
 			</CSSTransition>
-		);
+		)
 	};
 
 	checkOutHandler = async () => {
 		const date = new Date();
+		const dados = {
+			name: this.state.name,
+			email: this.state.email,
+			uid: this.state.uid,
+			order: this.props.order
+		}
+		// 1. Enviar os dados para o server, para então enviar por email
+		fetch('https://shrouded-island-24290.herokuapp.com/', {
+			method: 'post',
+			headers: {'content-type': 'application/json'},
+			body: JSON.stringify({
+				data: dados
+			})
+		})
+		// 3. display mensagem de compra.
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				console.log('Thank you for purchase!');
+			}
+		})
+		// 2. Enviar os dados para banco de dados, com a order e horario
 		await base.post(`${this.props.storeId}:${this.state.name}/user/order:${date}`, {
 			data: this.props.order
-		});
+		})
+		// 4. Limpar pedidos ou mudar de tela.
 	};
 
 	render() {
-		const logout = <button onClick={this.logout}>Log Out!</button>
+		const logout = <button className="btn--logout" onClick={this.logout}>Log Out!</button>
 		// 1. check if they are loging in
 		if (!this.state.uid) {
 			return <Login authenticate={this.authenticate} />;
@@ -118,7 +142,32 @@ class Order extends React.Component {
 					Total:
 					<strong>{formatPrice(total)}</strong>
 				</div>
-				<button onClick={this.checkOutHandler}>CheckOut</button>
+				<a href="#popup">
+					<button 
+						className="btn--checkout"
+						disabled={Object.keys(this.props.order).length === 0}
+						onClick={this.checkOutHandler}>
+						CheckOut
+					</button>
+				</a>
+				<div className="popup" id="popup">
+					<div className="popup__content">
+						<h2 className="popup__content--header">Thank You for Purchase!!!</h2>
+						<span className="popup__content--text">
+							<p>Dear {this.state.name},</p>
+							<p>
+								Thank you for visiting us and making your purchase! 
+								It is our goal that you are always happy with what you bought 
+								from us, so please let us know if your buying experience was 
+								anything short of excellent. One of our colleagues will get back 
+								to you shortly. Have a great day!
+							</p>
+						</span>
+						<a href="">
+							<button onClick={this.logout}>OK</button>
+						</a>
+					</div>
+				</div>
 			</div>
 		)
 	}

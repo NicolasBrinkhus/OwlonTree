@@ -63,15 +63,20 @@ header.top
       bottom 7px
 
 
-.owl-in-the-tree
+.owl-in-the-tree 
+
   display flex
   height 90vh
   max-width 1500px
   margin 0 auto
   margin-top 5vh
-  perspective 1000px
-  transform-style preserve-3d
-  & > *
+
+  @media only screen and (max-width: 600px){
+    flex-direction: column-reverse;
+  }
+
+  & > * 
+
     flex 1 4 auto
     padding 2rem
     border 1rem double lighten(black,10%)
@@ -82,17 +87,16 @@ header.top
     overflow scroll
     &:first-child
       flex-shrink 1 // take 4x the extra room
-      flex-basis 50%
-      transform translateX(50%) rotateY(6deg) translateX(-50%)
+      flex-basis 65%
     &:nth-child(2)
-      transform translateX(-50%) rotateY(-14deg) translateX(50%)
       border-left 0
       border-right 0
       min-width 300px
     &:last-child
       flex-shrink 1 // take 4x the extra room
-      flex-basis 50%
-      transform translateX(-50%) rotateY(10deg) translateX(50%) scale(1.08) translateX(24px)
+      flex-basis 35%
+  
+
 
 // Folding Transforms
 // Take off folding when not checked
@@ -158,8 +162,29 @@ ul.order
         display inline-block
         // transition all 0.5s
 
+.order-wrap {
+  text-align: center;
+  line-height: 1.6;
+}
+
 .order-title
   text-align center
+
+.btn--checkout {
+  padding: .5rem 1rem;
+  transition: all .3s;
+  transform: scale(1);
+}
+.btn--checkout:disabled{
+  transform: scale(.2);
+  display: none;
+}
+
+.btn--logout {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+}
 
 .meal-edit
   margin-bottom 20px
@@ -219,10 +244,14 @@ ul.order
     // color orange
     justify-content flex-end
     // font-family 'Open Sans Condensed'
-  img
+  img {
     float left
     width 150px
     margin-right 1rem
+    @media only screen and (max-width: 730px){
+      width: 100px;
+    }
+  }
 
 button, input[type=submit]
   text-transform uppercase
@@ -304,3 +333,45 @@ button, input[type=submit]
     &[type="text"]
       text-align center
       font-size 3rem
+
+// POPUP SESSION
+.popup {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(#000, .8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: .3s;
+
+  &:target {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 65%;
+    height: 35rem;
+    background-color: white;
+    box-shadow: 0 2rem 4rem rgba(#000, .2);
+    border-radius: 3px;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.2);
+    transition: all .5s;
+
+    &--header {
+      margin-top: 3rem;
+    }
+  }
+
+  &:target &__content {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
