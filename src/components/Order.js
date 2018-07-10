@@ -110,7 +110,7 @@ class Order extends React.Component {
 		}
 		//ao publicar no heroku = https://shrouded-island-24290.herokuapp.com/
 		// 1. Enviar os dados para o server, para então enviar por email
-		fetch('http://localhost:3000/', {
+		/*fetch('http://localhost:3000/', {
 			method: 'post',
 			headers: {'content-type': 'application/json'},
 			body: JSON.stringify({
@@ -123,7 +123,7 @@ class Order extends React.Component {
 			if (data === 'success') {
 				console.log('Thank you for purchase!');
 			}
-		})
+		})*/
 		// 2. Enviar os dados para banco de dados, com a order e horario
 		await base.post(`${this.props.storeId}:${this.state.name}/user/order:${date}`, {
 			data: this.props.order
