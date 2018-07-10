@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Order from "./Order";
-import Inventory from "./Inventory";
+// import Inventory from "./Inventory";
 import sampleMeals from "../sample-meals";
 import Meal from "./Meal";
 import base from "../base";

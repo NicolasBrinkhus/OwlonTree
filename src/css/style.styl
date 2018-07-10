@@ -1,12 +1,25 @@
 // Import all partials
 @require './_*.styl'
 
+.content{
+
+}
+
+.header {
+  background-image: linear-gradient(rgba(16, 29, 44, 0.80), 
+    rgba(16, 29, 44, 0.80)), url('./images/Eleg-1.fw.png');
+  background-size: cover;
+  background-position: center;
+  padding: 16rem;
+}
 
 header.top
   text-align center
   .owl
+    color darkgreen
     margin-top 3rem
   .tree
+    color darkgreen
     margin-top 3rem
     margin-left -4rem
   h1
@@ -312,6 +325,8 @@ button, input[type=submit]
 
   &.facebook
     background #3864A3
+    border-radius: 3px
+    overflow: hidden
     &:after
       background darken(#3864A3, 20%)
 
@@ -320,19 +335,177 @@ button, input[type=submit]
     &:after
       background darken(#5EA9DD, 20%)
 
+.test-btn{
+  width: 100%
+  padding: 1rem 2rem
+  background-color yellow
+  border-radius: 3px;
+  border: none
+  overflow: hidden
+  &:after{
+    background-color darken(#ff0, 50%) !important
+  }
+}
+
+.register_form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 5px;
+  background-color: #3ac53a;
+
+  &-name {
+    padding: 1rem 1rem;
+    background-color: #eee;
+    color: black;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ccc;
+  }
+  &-email {
+    padding: 1rem 1rem;
+    background-color: #eee;
+    color: black;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ccc;
+  }
+  &-tel {
+    padding: 1rem 1rem;
+    background-color: #eee;
+    color: black;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #ccc;
+  }
+  & button {
+    border-radius: 5px;
+    margin-top: 2rem;
+  }
+}
+
 
 // Store Selector
 .store-selector
-  background white
+  background transparent
   max-width 500px
-  margin 50px auto
+  margin auto
+  margin-bottom 10.5rem
+  color #c69963
   padding 2rem
-  border 2px solid black
-  input, button
+  text-align center
+  border 2px solid #c69963
+  text-shadow .1rem .1rem rgba(black, .8)
+  input
     width 100%
+    padding 1.5rem
+    color #c69963
+    text-shadow .1rem .1rem rgba(black, .8)
+    background-color transparent
+    border: none;
     &[type="text"]
       text-align center
       font-size 3rem
+  button
+    padding 1.5rem 
+    color #030329
+    background-color #c69963
+    border: none
+    &:hover{
+      color #c69963
+    }
+.below
+  position: relative
+  h2 
+    color: #c69963
+    text-shadow .1rem .1rem rgba(black, .8)
+  
+.arrow
+  position: absolute
+  top: 50%
+  left: 48%
+  transform: translate(-50%, -50%)
+  font-size: 15rem
+  text-shadow .1rem .1rem rgba(black, .8)
+  color: #c69963
+
+.bounce {
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+}    
+
+// ABOUT CONTENT && TEXT \f25a
+.text_content
+  width 100%
+  padding 10rem
+
+  &-about
+    font-size 3rem
+    margin-top 4rem
+    text-align center
+    
+    h2:after
+      content: "";
+      display: block;
+      height: 2px;
+      width: 150px;
+      background: #f1933c;
+      margin: 30px auto;
+    
+    p
+      width 100%
+      padding 0 10rem
+      font-size 1.8rem
+      font-weight: 300
+      line-height: 1.8
+
+  &-info
+    display flex
+    width: 100%
+    align-items: center
+    margin-top 10rem
+    margin-bottom 4rem
+    overflow: hidden
+
+    &--txt
+      width: 50%
+      color: #4c4848
+      line-height: 1.8
+      text-align: center
+      margin-left 2rem
+      padding 10rem 5rem 5rem 5rem
+      border 2px solid #ccc
+      border-right none
+      background-color #f7f7f7
+
+      h2:after
+        content: "";
+        display: block;
+        height: 2px;
+        width: 150px;
+        background: #f1933c;
+        margin: 30px auto;
+
+      p
+        font-size: 1.7rem
+        font-weight: 300
+        justify-content: center
+      
+    &--img
+      width: 50%
+      transform: translateX(30%) scale(0.9);
+      opacity: 0;
+      transition: all .3s;
+      
+      &.active
+        transform: translateX(0) scale(1) !important;
+        opacity: 1 !important;
+
+      img
+        width: 100%
+
+        
 
 // POPUP SESSION
 .popup {
@@ -345,7 +518,7 @@ button, input[type=submit]
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  transition: .3s;
+  transition: all .3s;
 
   &:target {
     opacity: 1;
@@ -357,7 +530,7 @@ button, input[type=submit]
     top: 50%;
     left: 50%;
     width: 65%;
-    height: 35rem;
+    height: 95vh;
     background-color: white;
     box-shadow: 0 2rem 4rem rgba(#000, .2);
     border-radius: 3px;
@@ -373,5 +546,80 @@ button, input[type=submit]
   &:target &__content {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+ // google maps
+.deliver_content
+  display: flex
+  width: 100%
+  flex-direction: column
+  align-items: center
+  
+  &-title
+    margin-top 4rem
+
+  &-map
+    width: 80%
+    height: 80vh
+    padding: 1rem
+    background-color grey
+    
+// ADDRESS CONFIRMATION
+
+.popup__content-address {
+  display: flex;
+  flex-direction: column
+  align-items: center
+  width: 100%
+  padding: 2rem
+  
+  & h2{
+    margin-bottom 2rem
+  }
+  
+  &--form {
+    width: 80%
+    height: 55rem
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    & textarea {
+      outline: none
+      border 1px solid darkgreen
+    }
+  }
+  
+  &--inputs{
+    width: 100%
+    display: flex
+    align-items: center
+
+    & input{
+      outline: none
+      width: 98%
+      height: 4rem
+      padding: 1rem
+      border: 1px solid red
+      &:required:valid{
+        border-color darkgreen
+      }
+      &:required:invalid + span{
+        opacity: 0
+      }
+    }
+    
+    & p {
+      color: darkblue;
+      text-transform: uppercase;
+      padding: 1rem;
+    }
+
+    & span{
+      width: 2%
+      height: 4rem
+      color: darkgreen
+      opacity: 1
+      transition: opacity .2s;
+    }
   }
 }

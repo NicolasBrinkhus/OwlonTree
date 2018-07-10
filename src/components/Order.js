@@ -11,7 +11,8 @@ class Order extends React.Component {
 	state = {
 		uid: null,
 		name: null,
-		email: null
+		email: null,
+		tel: null
 	};
 
 	componentDidMount() {
@@ -26,7 +27,8 @@ class Order extends React.Component {
 		const userInfo = {
 			uid: authData.user.uid,
 			name: authData.user.displayName,
-			email: authData.user.email
+			email: authData.user.email,
+			tel: authData.user.phoneNumber
 		};
 		// 1. look up	the current store in the firebase database
 		const store = await base.fetch(`${this.props.storeId}:${authData.user.displayName}`, { context: this });
@@ -36,19 +38,28 @@ class Order extends React.Component {
 			await base.post(`${this.props.storeId}:${authData.user.displayName}/user`, {
 				data: userInfo
 			});
+		} else {
+			console.log(store.user);
 		}
 		// 3. set the state of the inventory component to reflect the current user
 		this.setState({ ...userInfo });
 	};
 
 	authenticate = provider => {
-		const authProvider = new firebase.auth[`${provider}AuthProvider`]();
-		firebaseApp.auth().signInWithPopup(authProvider).then(this.authHandler);
+		// 1. check if provider is github, facebook or email
+		if (typeof provider === 'object') {
+			// Prover os dados do user: uid, name, email, phone.
+			this.authHandler({user: provider});
+		} else {
+			const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+			console.log(authProvider);
+			firebaseApp.auth().signInWithPopup(authProvider).then(this.authHandler);
+		}
 	};
 
 	logout = async () => {
 		await firebase.auth().signOut();
-		this.setState({ uid: null, email: null, name: null });
+		this.setState({ uid: null, email: null, name: null, tel: null, order: null });
 		localStorage.removeItem(this.props.storeId);
 	}
 	renderOrder = key => {
@@ -59,6 +70,10 @@ class Order extends React.Component {
 		if (!meal) return null;
 
 		if (!isAvailable) {
+			setTimeout(() => {
+				console.log(key);
+				this.props.removeFromOrder(key);
+			}, 2000)
 			return (
 				<CSSTransition classNames="order" key={key} timeout={{ enter: 250, exit: 250 }}>
 					<li key={key}>Sorry {meal ? meal.name : 'meal'} is no longer available!</li>
@@ -90,10 +105,12 @@ class Order extends React.Component {
 			name: this.state.name,
 			email: this.state.email,
 			uid: this.state.uid,
-			order: this.props.order
+			order: this.props.order,
+			tel: this.props.tel
 		}
+		//ao publicar no heroku = https://shrouded-island-24290.herokuapp.com/
 		// 1. Enviar os dados para o server, para então enviar por email
-		fetch('https://shrouded-island-24290.herokuapp.com/', {
+		fetch('http://localhost:3000/', {
 			method: 'post',
 			headers: {'content-type': 'application/json'},
 			body: JSON.stringify({
@@ -111,14 +128,13 @@ class Order extends React.Component {
 		await base.post(`${this.props.storeId}:${this.state.name}/user/order:${date}`, {
 			data: this.props.order
 		})
-		// 4. Limpar pedidos ou mudar de tela.
 	};
 
 	render() {
 		const logout = <button className="btn--logout" onClick={this.logout}>Log Out!</button>
 		// 1. check if they are loging in
 		if (!this.state.uid) {
-			return <Login authenticate={this.authenticate} />;
+			return <Login authenticate={this.authenticate} storeId={this.props.storeId} />;
 		} 
 		// 3. they must be the owner, just display the orders
 		const orderIds = Object.keys(this.props.order);

@@ -5,6 +5,7 @@ const firebaseApp = firebase.initializeApp({
     apiKey: "AIzaSyCTlRdweba9PRymG9BNfjzrQyAkYf3y9MA",
     authDomain: "owl-in-the-tree-owner.firebaseapp.com",
     databaseURL: "https://owl-in-the-tree-owner.firebaseio.com",
+    projectId: "owl-in-the-tree-owner"
 });
 
 const base = Rebase.createClass(firebaseApp.database());
